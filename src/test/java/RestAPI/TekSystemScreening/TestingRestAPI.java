@@ -96,7 +96,7 @@ public class TestingRestAPI {
 		else if (statusCode == 200 && size>2) {
 			capitalName = jsonTree.get(0).get("capital").get(0).asText(); // Using get method
 			countryName = jsonTree.at("/0/name/common").asText(); // Using at() method
-			System.out.println("The Capital City of " + countryName + " is " + capitalName + ".\n\n");
+			
 			
 			Assert.assertEquals("Keep-Alive",connectionHeader);
 			System.out.println("**************************NOTE BEGIN**************************************");
@@ -108,6 +108,7 @@ public class TestingRestAPI {
 			System.out.println("POSITIVE TESTCASE PASS- Status Code 200 as Expected \n");
 			System.out.println("The Response From The Service"+responseInString);
 			System.out.println("**************************NOTE END************************************** \n \n");
+			System.out.println("The Capital City of " + countryName + " is " + capitalName + ".\n\n");
 		}
 
 	}
@@ -132,50 +133,7 @@ public class TestingRestAPI {
 	}
 
 	
-	public void reRun() throws JsonMappingException, JsonProcessingException {
-		tpiObject = new TestingRestAPI();
-		if (statusCode == 200 && countryName != null) {
-			if (countryName == null) {
-				System.out.println("Please Enter a Valid Country code which matches to a Country");
-			}
-			System.out.println("\nGreat Awesome!!! You Found the Capital of " + countryName + ", "
-					+ "\nNow Would you like to find Capitals of Other Countries?"
-					+ "\nIf yes, Please type YES to Continue Or Type EXIT to see the Test Execution Results");
-			Scanner sc = new Scanner(System.in);
-			retry = sc.nextLine();
 
-			while (!retry.equalsIgnoreCase("Yes") && !retry.equalsIgnoreCase("exit")) {
-				System.out.println("INVALID RESPONSE!!!- Please Type YES or EXIT");
-				retry = sc.nextLine();
-			}
-
-		}
-		while (!retry.equalsIgnoreCase("Exit")) {
-			tpiObject.getInputFromUser();
-			tpiObject.getRequest();
-			tpiObject.lastMethod();
-			if (statusCode == 200 && countryName != null) {
-				if (countryName.equalsIgnoreCase(null)) {
-					System.out.println("Please Enter a Valid Country code which matches to a Country");
-				}
-				System.out.println("Awesome!!! You Found the Capital of " + countryName + ", "
-						+ "\nNow Would you like to find Capitals of Other Countries?"
-						+ "\nIf yes, Please type YES to Continue Or Type EXIT to see the Test Execution Results");
-				Scanner sc = new Scanner(System.in);
-				retry = sc.nextLine();
-
-				while (!retry.equalsIgnoreCase("Yes") && !retry.equalsIgnoreCase("exit")) {
-					System.out.println("INVALID RESPONSE!!!- Please Type YES or EXIT");
-					retry = sc.nextLine();
-				}
-
-			}
-		}
-
-	
-
-	}
-	
 	
 	public void negativeTestCase01() throws JsonMappingException, JsonProcessingException {
 		RestAssured.baseURI = "https://restcountries.com/v3.1/";
@@ -192,13 +150,13 @@ public class TestingRestAPI {
 				responseInString = response.asString();
 				JsonNode jsonTree = objectMapper.readTree(responseInString);
 				statusCode = response.getStatusCode();
-				Assert.assertEquals(40, statusCode);
+				Assert.assertEquals(404, statusCode);
 				System.out.println("\n**************************NOTE BEGIN*******************************************************");
 				 System.out.println("\nFirst Negative Test case is being executed: Using Incorrect Country Name");
 				System.out.println("Negative Test Case: PASS : Error code 404 as Expected");
 				String messageValue=jsonTree.at("/message").asText();
 				Assert.assertEquals("Not Found", messageValue);
-				System.out.println("Negative Test Case: PASS : Message Value in Response ="+messageValue+" As Expected\n");
+				System.out.println("Negative Test Case: PASS : Message Value in Response ="+ messageValue+" which is As Expected\n");
 				System.out.println("**************************NOTE END********************************************************\n");
 				
 				
@@ -246,9 +204,9 @@ public class TestingRestAPI {
 			if (countryName == null) {
 				System.out.println("Please Enter a Valid Country code which matches to a Country");
 			}
-			System.out.println("\nGreat Awesome!!! You Found the Capital of " + countryName + ", "
+			System.out.println("Great Awesome!!! You Found the Capital of " + countryName + ", "
 					+ "\nNow Would you like to find Capitals of Other Countries?"
-					+ "\nIf yes, Please type YES to Continue Or Type EXIT to see the Test Execution Results");
+					+ "\nIf yes, Please type YES to Continue Or Type EXIT to see the Test Execution Results.");
 			Scanner sc = new Scanner(System.in);
 			retry = sc.nextLine();
 
@@ -266,7 +224,7 @@ public class TestingRestAPI {
 				if (countryName.equalsIgnoreCase(null)) {
 					System.out.println("Please Enter a Valid Country code which matches to a Country");
 				}
-				System.out.println("Awesome!!! You Found the Capital of" + countryName + ", "
+				System.out.println("Awesome!!! You Found the Capital of " + countryName + ", "
 						+ "\nNow Would you like to find Capitals of Other Countries?"
 						+ "\nIf yes, Please type YES to Continue Or Type EXIT to see the Test Execution Results");
 				Scanner sc = new Scanner(System.in);
